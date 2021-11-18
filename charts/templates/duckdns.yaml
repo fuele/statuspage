@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: duckdns
+  name: duckdns
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: duckdns
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: duckdns
+      namespace: {{ .Release.Namespace }}
+    spec:
+      containers:
+      - image: {{ .Values.duckdns.image }}:{{ .Values.duckdns.label }}
+        name: duckdns
+        env:
+        - name: INTERVAL_SECONDS
+          value: {{ quote .Values.duckdns.intervalSeconds }}
+        - name: DOMAIN
+          value: {{ .Values.duckdns.domain }}
+        - name: "TOKEN"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.duckdns.secretName }}
+              key: "TOKEN"
+        command: ['sh', '-c', 'while true; do echo -n `date`; curl -s "https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip="; echo ""; sleep $INTERVAL_SECONDS; done']

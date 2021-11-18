@@ -1,0 +1,5 @@
+apiVersion: v2
+name: status-page
+version: 1.0.0
+description: A small application to monitor your home internet and post any outages to statuspage.io. Requires an external agent that will phone home to your canary page.
+

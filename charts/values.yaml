@@ -1,0 +1,19 @@
+webserver:
+  image: nginx
+  label: 1.21.4-alpine
+  contentPath: /usr/share/nginx/html
+
+storage:
+  size: 1Mi
+  hostname: pi4
+  path: /mnt/pv/html-content
+
+duckdns:
+  image: curlimages/curl
+  label: "7.80.0"
+  domain: svenxix
+  intervalSeconds: 300
+  secretName: duckdns
+ 
+service:
+  nodePort: 30008
