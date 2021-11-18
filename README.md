@@ -46,7 +46,7 @@ data:
   TOKEN: <base64 token>
 ```
 ## helm install
-In this repo, navigate to charts and open values.yaml. Fill in any missing values.
+In this repo, navigate to charts and open values.yaml. Fill in the missing duckdns domain name.
 Next run
 ```
 helm install statuspage -n statuspage . -f values.yaml
