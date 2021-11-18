@@ -11,7 +11,7 @@ storage:
 duckdns:
   image: curlimages/curl
   label: "7.80.0"
-  domain: svenxix
+  domain: <duckdns.org domain name>
   intervalSeconds: 300
   secretName: duckdns
  
