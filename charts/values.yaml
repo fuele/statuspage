@@ -17,3 +17,11 @@ duckdns:
  
 service:
   nodePort: 30008
+
+statuspage:
+  pageId: <your statuspage.io page id>
+  bandwidth:
+    metricId: <The bandiwdth metric id>
+    schedule: "*/5 * * * *"
+    image: "fuele/statuspage-bandwidth:1.0.0-aarch64"
+
