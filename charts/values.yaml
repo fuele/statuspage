@@ -11,7 +11,7 @@ storage:
 duckdns:
   image: curlimages/curl
   label: "7.80.0"
-  domain: <duckdns.org domain name>
+  domain: <your duckdns.org name>
   intervalSeconds: 300
   secretName: duckdns
  
@@ -19,9 +19,13 @@ service:
   nodePort: 30008
 
 statuspage:
-  pageId: <your statuspage.io page id>
+  pageId: <your page id>
   bandwidth:
-    metricId: <The bandiwdth metric id>
-    schedule: "*/5 * * * *"
-    image: "fuele/statuspage-bandwidth:1.0.0-aarch64"
-
+    metricId: <your metric id>
+    schedule: "0 * * * *"
+    image: "fuele/internet-statuspage:1.0.0-aarch64"
+  latency:
+    metricId: <your metric id>
+    schedule: "* * * * *"
+    image: "fuele/internet-statuspage:1.0.0-aarch64"
+    targetHost: "1.1.1.1"

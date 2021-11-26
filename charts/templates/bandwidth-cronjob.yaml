@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: statuspage-bandwidth
+  namespace: {{ .Release.namespace }}
+spec:
+  schedule: {{ quote .Values.statuspage.bandwidth.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cronjob
+            image: {{ .Values.statuspage.bandwidth.image }}
+            command: ['sh','-c','./fast --silent -m | bash ./upload.sh']
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: PAGE_ID
+              value: {{ .Values.statuspage.pageId }}
+            - name: METRIC_ID
+              value: {{ .Values.statuspage.bandwidth.metricId }}
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: statuspage
+                  key: TOKEN
+          restartPolicy: Never

@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: latency-cronjob
+  namespace: {{ .Release.namespace }}
+spec:
+  schedule: {{ quote .Values.statuspage.latency.schedule }}
+  concurrencyPolicy: Forbid
+  suspend: false
+  jobTemplate:
+    metadata:
+      name: latency-cronjob
+    spec:
+      template:
+        spec:
+          containers:
+          - image: {{ .Values.statuspage.latency.image }}
+            name: latency
+            command: 
+            - sh
+            - -c
+            - bash ./get-latency.sh | bash ./upload.sh
+            env:
+            - name: PAGE_ID
+              value: {{ .Values.statuspage.pageId }}
+            - name: METRIC_ID
+              value: {{ .Values.statuspage.latency.metricId }}
+            - name: TARGET_HOST
+              value: {{ .Values.statuspage.latency.targetHost }}
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: statuspage
+                  key: TOKEN
+          restartPolicy: Never
