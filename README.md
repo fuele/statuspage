@@ -17,6 +17,8 @@ Create an account with duck dns.org and note down the token and domain.
 # Statuspage.io
 Create an account. Click components. Add component. Add a name and description and leave the rest as default. Click save component. Click on your new component, scroll down to the bottom and note the `Component API ID`. 
 Click on your avatar in the bottom left of your screen to access the user menu. Click API info. At the bottom of the screen you should see your api key in a grey box. Note this token down too.
+Click on `System Metrics` and add two metrics, Bandwidth and Latency.
+Click on the metric, go under advanced options and note down the two metric ids.
 
 # Web server installation
 
@@ -28,7 +30,7 @@ kubectl create namespace statuspage
 
 Next create an empty secret to hold your duckdns token in that namespace
 ```
-kubectl create secret generic duckdns
+kubectl create secret generic duckdns -n statuspage
 ```
 
 Secrets must be encoded. Get the base64 encoded token by running and filling in the token you got from duckdns.org.
@@ -45,8 +47,25 @@ Add the following and paste in your base64 encoded key.
 data:
   TOKEN: <base64 token>
 ```
+
+## Statuspage secret
+Create a secret like you did before with duckdns.org
+
+```
+kubectl create secret generic statuspage -n statuspage
+
+echo -n <token> | base64
+kubectl edit secret statuspage -n statuspage
+```
+
+
 ## helm install
 In this repo, navigate to charts and open values.yaml. Fill in the missing duckdns domain name.
+Put in your statuspage
+* pageId
+* metric id for bandwidth
+* metric id for latency
+
 Next run
 ```
 helm install statuspage -n statuspage . -f values.yaml
