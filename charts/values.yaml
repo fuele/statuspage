@@ -3,11 +3,6 @@ webserver:
   label: 1.21.4-alpine
   contentPath: /usr/share/nginx/html
 
-storage:
-  size: 1Mi
-  hostname: pi4
-  path: /mnt/pv/html-content
-
 duckdns:
   image: curlimages/curl
   label: "7.80.0"
@@ -22,10 +17,10 @@ statuspage:
   pageId: <your page id>
   bandwidth:
     metricId: <your metric id>
-    schedule: "0 * * * *"
+    schedule: "0 */3 * * *"
     image: "fuele/internet-statuspage:1.0.0-aarch64"
   latency:
-    metricId: <your metric id>
+    metricId: <your metric id> 
     schedule: "* * * * *"
     image: "fuele/internet-statuspage:1.0.0-aarch64"
     targetHost: "1.1.1.1"
