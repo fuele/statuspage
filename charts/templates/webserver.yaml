@@ -28,10 +28,3 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
-        volumeMounts:
-        - name: static-content
-          mountPath: {{ .Values.webserver.contentPath }}
-      volumes:
-        - name: static-content
-          persistentVolumeClaim:
-            claimName: html-content-pvc 

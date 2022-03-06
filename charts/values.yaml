@@ -3,16 +3,11 @@ webserver:
   label: 1.21.4-alpine
   contentPath: /usr/share/nginx/html
 
-storage:
-  size: 1Mi
-  hostname: pi4
-  path: /mnt/pv/html-content
-
 duckdns:
+  schedule: "*/5 * * * *"
   image: curlimages/curl
   label: "7.80.0"
   domain: <your duckdns.org name>
-  intervalSeconds: 300
   secretName: duckdns
  
 service:
@@ -22,7 +17,7 @@ statuspage:
   pageId: <your page id>
   bandwidth:
     metricId: <your metric id>
-    schedule: "0 * * * *"
+    schedule: "0 */3 * * *"
     image: "fuele/internet-statuspage:1.0.0-aarch64"
   latency:
     metricId: <your metric id>

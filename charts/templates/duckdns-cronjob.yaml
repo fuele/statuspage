@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: duckdns-cronjob
+  namespace: {{ .Release.namespace }}
+spec:
+  schedule: {{ quote .Values.duckdns.schedule }}
+  concurrencyPolicy: Forbid
+  suspend: false
+  jobTemplate:
+    metadata:
+      name: duckdns-cronjob
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - image: {{ .Values.duckdns.image }}:{{ .Values.duckdns.label }}
+            name: duckdns
+            command: ['sh','-c','curl -s "https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip="']
+            env:
+            - name: DOMAIN
+              value: {{ .Values.duckdns.domain }}
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.duckdns.secretName }}
+                  key: "TOKEN"
+            
