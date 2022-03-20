@@ -15,9 +15,10 @@ A lambda function written in go will run every minute and try to reach your home
 Create an account with duck dns.org and note down the token and domain.
 
 # Statuspage.io
-Create an account. Click components. Add component. Add a name and description and leave the rest as default. Click save component. Click on your new component, scroll down to the bottom and note the `Component API ID`. 
-Click on your avatar in the bottom left of your screen to access the user menu. Click API info. At the bottom of the screen you should see your api key in a grey box. Note this token down too.
-Click on `System Metrics` and add two metrics, Bandwidth and Latency.
+Create an account. Click components. Add component. Add a name and description and leave the rest as default. Click save component. 
+Click on your avatar in the bottom left of your screen tokk access the user menu. Click API info. Under the `Organization API keys` you'll see your api keys. Note that secret down. 
+At the bottom of the screen under `Page IDs` you should see your page id. Note this token down too.
+Click on `Your page` and then `System Metrics` and add two metrics, Bandwidth and Latency.
 Click on the metric, go under advanced options and note down the two metric ids.
 
 # Web server installation
@@ -56,6 +57,12 @@ kubectl create secret generic statuspage -n statuspage
 
 echo -n <token> | base64
 kubectl edit secret statuspage -n statuspage
+```
+
+Add the following and paste in your base64 encoded api token:
+```
+data:
+  TOKEN: <base64 token>
 ```
 
 
