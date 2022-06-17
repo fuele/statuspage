@@ -11,6 +11,27 @@ If you want to monitor your home internet you can do the same, but you will need
 # Design
 A lambda function written in go will run every minute and try to reach your home web server. If it is successful in doing so it will mark it as up in statuspage.io. If it fails it will mark it as down. Duckdns.org is used to provide dynamic dns service.
 
+# CRI-O
+As of CRI-O 1.18.0 pods by default do not have NET_RAW permissions which measn they cannot run the `ping` command (https://cri-o.github.io/cri-o/v1.18.0.html). One of our metrics requires ping to function properly. To re-enable this capability, edit /etc/crio/crio.conf to include the following then restart crio.service.
+```
+[crio.runtime]
+
+default_capabilities = [
+          "CHOWN",
+          "DAC_OVERRIDE",
+          "FSETID",
+          "FOWNER",
+          "SETGID",
+          "SETUID",
+          "SETPCAP",
+          "NET_BIND_SERVICE",
+          "KILL",
+          "NET_RAW",
+  ]
+```
+
+If you are not using CRI-O as your CRI then you don't need to do this step.
+
 # Duckdns.org
 Create an account with duck dns.org and note down the token and domain.
 
