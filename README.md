@@ -79,12 +79,12 @@ helm install statuspage -n statuspage . -f values.yaml
 ```
 This should install everything. You can verify it's working by running 
 ```
-curl http://localhost:30007
+curl http://localhost:30008
 ```
 Note that it only needs to return any response to the lambda function to be marked as up. Even a 40x or 50x response is sufficient.
 
 # Port forwarding
-Next set the port forwarding on your router to the new service running on your node's IP and port 30007.
+Next set the port forwarding on your router to the new service running on your node's IP and port 30008.
 
 # Lambda function
 The lambda function is in another repo. Check out https://github.com/fuele/statuspage-updater
